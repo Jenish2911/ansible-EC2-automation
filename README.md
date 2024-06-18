@@ -11,12 +11,37 @@ This project demonstrates how to create an EC2 instance on AWS using Ansible.
    - If you don't have an IAM user with EC2 permissions, create one in the AWS Management Console.
 2. **Install Software:**
    - Install Python, Pip, boto, boto3, and Ansible on your local machine. Refer to their respective documentation for installation instructions.
+
+   ```bash
+   sudo apt install python         # install python
+   sudo apt install python3-pip     # install pip
+   apt install python3-boto python3-boto3 ansible  # install boto, boto3, and ansible
+   ```
 3. **Prepare Local Files:**
    - Create a project directory for your Ansible project.
    - Generate an SSH key pair using `ssh-keygen`. Store the public key securely.
+
+   ```bash
+   # 1. Create an 'ansible_start' folder with 'group_vars/all/' subdirectory
+   mkdir -p ansible_start/group_vars/all/
+
+   # 2. Go into 'ansible_start'
+   cd ansible_start
+
+   # 3. Create a 'playbook.yml' file in ansible_start directory
+   touch playbook.yml
+   ```
 4. **Set Up Ansible Vault:**
    - Ansible Vault is used to store sensitive information like AWS access keys.
-   - Follow the Ansible documentation to set up a vault using either a password or automated access.
+
+   ```bash
+   # 1. Create a hashed password file vault.pass in the root directory
+   openssl rand -base64 2048 > vault.pass
+
+   # 2. Create an ansible vault. 'vault.pass' is referenced with '--vault-password-file' option
+   ansible-vault create group_vars/all/pass.yml --vault-password-file vault.pass
+   ```
+   - Add EC2 ec2_access_key and ec2_secret_key from your IAM and add it to group_vars/all/pass.yml
 5. **Create Ansible Playbook:**
    - Create a file named `playbook.yml` in your project directory.
    - Copy the provided Ansible playbook code (refer to the original article for the code) into this file. 
